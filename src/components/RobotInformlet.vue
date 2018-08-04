@@ -42,6 +42,24 @@
                 <div class="ib-value">{{robot.right_proximity}}</div>
             </div>
         </div>
+        <!--
+        <div class="info-bubble-flex">
+            <div class="info-bubble">
+                <div class="ib-name">X ACCELERATION</div>
+                <div class="ib-value">{{robot.x_acceleration}}</div>
+            </div>
+            <div class="info-bubble">
+                <div class="ib-name">Y ACCELERATION</div>
+                <div class="ib-value">{{robot.y_acceleration}}</div>
+            </div>
+        </div>
+        <div class="info-bubble-flex">
+            <div class="info-bubble">
+                <div class="ib-name">Z ACCELERATION</div>
+                <div class="ib-value">{{robot.z_acceleration}}</div>
+            </div>
+        </div>
+        -->
     </div>
 </template>
 <script>

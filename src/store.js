@@ -11,7 +11,9 @@ export default new Vuex.Store({
     online: false,
   },
   getters: {
-
+    selectedRobots(state) {
+      return Object.values(state.robots).filter(x => x.is_active && state.selectedRobots.indexOf(x.id))
+    }
   },
   mutations: {
     addRobot(state, robot) {

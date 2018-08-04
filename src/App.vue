@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Joystick</router-link> |
-      <router-link to="/calibrate">Calibration</router-link> |
+      <router-link to="/calibrate">Navigation</router-link> |
       <router-link to="/about">Config</router-link>
       <div style="margin: 10px 0">the server is now <b v-if="$store.state.online" style="color: #2ecc71">online</b><b style="color: #aaa" v-else>offline</b></div>
     </div>

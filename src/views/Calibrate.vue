@@ -7,6 +7,16 @@
                     <h1>{{currentStateName}}</h1>
                     <span v-if="selectedCalibratorId">ID #{{selectedCalibratorId}}</span>
                     <span v-else>Robot not connected</span>
+                    <br/><br/>
+                    <div>
+                        <label>Turning Delay: </label>
+                        <input type="number" v-model="turningDelay"/>
+                    </div>
+                    <div id="log-state-change" style="margin: 10px 0;">
+                        <div @click="nextDirection = 'left'" :class="{selected: nextDirection == 'left'}">&#8592; LEFT</div>
+                        <div @click="nextDirection = 'forward'" :class="{selected: nextDirection == 'forward'}">&#8593; FORWARD &#8593;</div>
+                        <div @click="nextDirection = 'right'" :class="{selected: nextDirection == 'right'}">RIGHT &#8594;</div>
+                    </div>
                 </div>
             </div>
             <br/>
@@ -34,9 +44,34 @@ button {
     background-color: #2ecc71;
     color: #cdffe1;
     font-weight: 700;
+    outline: none;
+    transition: 200ms ease;
+
+    &:hover {
+        background-color: darken(#2ecc71, 5%);
+    }
 }
 
 #calibrate-log {
+}
+
+#log-state-change {
+    & > div {
+        background-color: #efefef;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 4px;
+        padding: 6px 10px;
+        margin: 0 8px;
+        transition: 150ms ease;
+
+        &.selected {
+            background-color: #2980b9;
+            color: #fff;
+        }
+    }
 }
 </style>
 
@@ -56,15 +91,11 @@ export default {
             STATE_TURNING_RIGHT: 5,
             STATE_TILT_LEFT: 6,
             STATE_TILT_RIGHT: 7,
-            OBJECT_PATH: 0,
-            OBJECT_STOP_SIGN: 1,
-            OBJECT_BORDER: 2,
-            objectQueue: [],
             nextDirection: 'left',
             calibrationInterval: 0,
             lastTick: 0,
             turningTimeout: 0,
-            turningDelay: 3000
+            turningDelay: 2600,
         }
     },
     methods: {
@@ -82,6 +113,7 @@ export default {
             const robot = this.$store.state.robots[this.selectedCalibratorId]
 
             if (this.currentState == this.STATE_STOPPED) return
+
             if (robot.left_floor < 20 && robot.right_floor < 20 && !(this.currentState == this.STATE_TURNING_LEFT || this.currentState == this.STATE_TURNING_RIGHT)) {
                 this.currentState = this.STATE_INTERCEPT_BLACK
             } else if (!(robot.left_floor < 20 && robot.right_floor < 20) && this.currentState == this.STATE_INTERCEPT_BLACK) {
@@ -101,6 +133,7 @@ export default {
         },
         makeRightTurn() {
             this.currentState = this.STATE_TURNING_RIGHT
+            clearTimeout(this.turningTimeout)
             this.turningTimeout = setTimeout(() => {
                 this.currentState = this.STATE_FOLLOW_WHITE
             }, this.turningDelay)

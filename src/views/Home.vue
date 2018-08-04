@@ -34,6 +34,6 @@ export default {
   align-items: flex-start;
   max-width: 700px;
   margin: 0 auto;
-  margin-bottom: 200px;
+  margin-bottom: 400px;
 }
 </style>
